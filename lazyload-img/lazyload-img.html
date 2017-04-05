@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    ul,li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .showPic {
+      width: 460px;
+      margin: 10px auto;
+    }
+    ul::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    ul>li {
+      float: left;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+    ul>li>img {
+      width: 220px;
+      height: 160px;
+    }
+  </style>
+</head>
+<body>
+  <div class="showPic">
+    <ul>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/2.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/6.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/7.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/8.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/9.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/10.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/12.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/15.jpg" src=""></li>
+      <li><img data-src="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" src=""></li>
+    </ul>
+  </div>
+  <script src="../jquery-3.2.0.min.js"></script>
+  <script>
+    var imgs=$("ul>li>img");
+    check();
+    $(window).on("scroll",check);
+    
+    function  check(){
+      imgs.not(".loaded").each(function(){  
+        if(isShow($(this))){
+          showImg($(this));        
+        }       
+      })
+    }
+    
+    /*判断元素是否在可视区域*/
+    function isShow($node){
+      var windowHeight=$(window).height();
+      var scrollTop=$(window).scrollTop();
+      var offsetTop=$node.offset().top;
+      var nodeHeight=$node.height();
+      
+      if(scrollTop<(offsetTop+nodeHeight) && offsetTop<(windowHeight+scrollTop)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    
+    /*显示图片*/
+    function showImg($img){
+      var dataSrc=$img.attr("data-src");
+      $img.attr("src",dataSrc);
+      $img.addClass("loaded");
+      //$img不能换成this，如果用each，可以用this
+    }
+    
+  </script>
+</body>
+</html>
+
+
+ 
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

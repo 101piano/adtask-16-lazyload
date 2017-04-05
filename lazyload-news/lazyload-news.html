@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    ul,li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    ul {
+      margin: 50px ;
+      width: 650px;
+    }
+    li::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    li a {
+      text-decoration: none;
+      color: #222;
+    }
+    li a img {
+      float: left;
+      width: 80px; 
+      height: 80px;
+      margin-right: 20px;
+    }    
+    li a h3 {
+      line-height: 10px;
+      padding-top: 20px;
+    }
+    li a p {
+      line-height: 10px;
+      color: #ccc;
+    }
+    .load-more {
+      visibility: hidden;
+    }
+      
+  </style>
+</head>
+<body>
+  <div>
+    <ul>     
+    </ul>
+    <div class="load-more">加载更多</div>
+  </div>
+  <script src="jquery-3.2.0.min.js"></script>
+  <script>
+    var $ul=$("ul");
+    var $loadMore=$(".load-more");
+    
+    var pageIndex=0;
+    var isOver=false;//判断获取的数据是否已经没有了
+    var isNewArrive=true;//判断数据是否到了
+    
+    getNews();
+    $(window).on("scroll",function(){
+      if(isShow($loadMore)&& !isOver && isNewArrive){
+          getNews();
+      }           
+    }) 
+   
+    function getNews(){  
+      isNewArrive=false;
+      $.ajax({
+        url: "/getNews",
+        method: "get",
+        dataType: "json",
+        data:{
+          page: pageIndex,
+          length: 3          
+        }    
+      }).done(function(result){  
+        isNewArrive=true;
+        if(result.status===0){
+          appendHtml(result.data); 
+          pageIndex++;
+          if(isShow($loadMore) && !isOver && isNewArrive){
+            getNews();
+          }    
+        }else{
+          alert("获取新闻出错");
+        }     
+      }).fail(function(){
+        alert("系统出错了");
+      })
+    }    
+    function appendHtml(news){
+      if(news.length==0){
+        isOver=true;
+        $ul.append("<p>没有更多数据了</p>");
+      }
+      var html="";
+      $.each(news,function(){
+        html+="<li><a href="+this.link+">";
+        html+="<img src="+this.img+">";
+        html+="<h3>"+this.title+"</h3>";
+        html+="<p>"+this.brif+"</p>";
+        html+="</a></li>";     
+      })
+      $ul.append(html);    
+    } 
+     
+    
+    /*判断元素是否在可视区域*/
+    function isShow($node){
+      var windowHeight=$(window).height();
+      var scrollTop=$(window).scrollTop();
+      var offsetTop=$node.offset().top;
+      var nodeHeight=$node.height();
+      
+      if(scrollTop<(offsetTop+nodeHeight) && offsetTop<(windowHeight+scrollTop)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    
+    
+  </script>
+</body>
+</html>
+
+
+ 
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
